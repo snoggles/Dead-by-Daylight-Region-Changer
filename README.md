@@ -14,7 +14,7 @@ Region Changer works by modifying your system's hosts file to block specific AWS
 - Quick Setup: One-click functionality to switch regions or reset to default.  
 
 ## How to Use  
-1. Run the software as an administrator (required to modify the hosts file).  
+1. Run the `RegionChangerv0.1.exe` as an administrator (required to modify the hosts file).  
 2. Select the region you want from the list.  
 3. The tool will automatically block other regions, forcing Dead by Daylight to connect to your selected region.  
 4. If you wish to reset to the default settings, use the Cleanup option to unblock all regions.  
