@@ -20,7 +20,7 @@ Region Changer works by modifying your system's hosts file to block specific AWS
 4. If you wish to reset to the default settings, use the Cleanup option to unblock all regions.  
 
 ## Limitations  
-- This tool modifies the hosts file. While this is safe, antivirus software may flag it as suspicious—this is a false positive.  
+- This tool modifies the hosts file. While this is safe, antivirus software may flag it as suspicious — this is a false positive.  
 - You must run the tool as an administrator for it to work correctly.  
 
 ## Disclaimer  
@@ -34,7 +34,7 @@ Region Changer works by modifying your system's hosts file to block specific AWS
 If you want to build your own version of the Region Changer as an executable (.exe), follow these simple steps:
 
 ### What You Need:
-- **Python** installed on your computer (download it from (https://www.python.org/)).
+- **Python** installed on your computer (download it from (https://www.python.org/).
 - **PyInstaller** (a tool that converts Python scripts into standalone executables).
 
 ### Step-by-Step Guide
@@ -86,8 +86,6 @@ PyInstaller will now convert your Python script into an EXE file. It may take a 
 #### 8. Test Your EXE
 - Double-click the `RegionChanger.exe` file to make sure it works as expected.
 - If everything looks good, you can start using it or share it with others!
-
----
 
 And that's it! You've successfully built your own version of the Region Changer EXE.
 ---
