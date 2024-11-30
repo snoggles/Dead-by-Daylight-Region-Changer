@@ -8,6 +8,7 @@
 
 import os
 import ctypes
+import time
 
 def is_admin():
     try:
@@ -56,14 +57,18 @@ def remove_from_hosts(domains):
             line for line in lines if not any(domain in line for domain in domains)
         ]
 
-        # Remove the final blank line, if present
-        if filtered_lines and filtered_lines[-1].strip() == "":
+        # Remove any trailing blank lines
+        while filtered_lines and filtered_lines[-1].strip() == "":
             filtered_lines.pop()
+
+        # Ensure exactly one blank line at the end
+        if filtered_lines and filtered_lines[-1].strip() != "":
+            filtered_lines.append("\n")
 
         with open(hosts_path, 'w') as hosts_file:
             hosts_file.writelines(filtered_lines)
 
-        print("\nCleanup completed: Removed domains and ensured no trailing blank lines.")
+        print("\nCleanup completed: Removed domains from the hosts file.")
 
     else:
         print("This script requires administrator privileges. Please run as administrator.")
@@ -110,40 +115,41 @@ def get_user_region_choice():
 def clear_console():
     """Clear the console screen on Windows."""
     os.system('cls')
-
+    
+def clear_console():
+    """Clear the console screen on Windows."""
+    os.system('cls')
 if __name__ == "__main__":
     if not is_admin():
         print("This script requires administrator privileges. Please run as administrator.")
         input("Press Enter to exit...")
         exit()
 
-    previous_domains = []  # Store previously blocked domains
+    all_domains = []
+    first_run = True
 
     while True:
-        clear_console()  # Clear the console before displaying new output
+        if not first_run:
+            clear_console()
+        first_run = False
         choice, chosen_domain, domains_to_block, regions = get_user_region_choice()
 
+        if not all_domains:
+            all_domains = [region[1] for key, region in regions.items() if key not in ["15", "16"]]
         if choice == "16":  # Exit option
             print("Exiting the script. Goodbye!")
             break
         elif choice == "15":  # Set Default option
             print("\nPerforming cleanup...")
-            remove_from_hosts(previous_domains)
-            previous_domains = []  # Reset previous domains after cleanup
+            remove_from_hosts(all_domains)
         else:
-            # Clean up the previously selected region before adding the new one
-            if previous_domains:
-                print("\nCleaning up previous region...")
-                remove_from_hosts(previous_domains)
+            # Clean up all previously added domains before adding new ones
+            print("\nCleaning up previous entries...")
+            remove_from_hosts(all_domains)
 
             ip_address = "0.0.0.0"  # IP address used to block the domains
             print(f"\nSelected region: {regions[choice][0]}")
-            print(f"\nDone!")
-            # print(f"Blocking access to: {', '.join(domains_to_block)}")
-
             add_to_hosts(ip_address, domains_to_block)
+            print(f"\nDone!")
 
-            # Update previous_domains with the current ones
-            previous_domains = domains_to_block
-
-        input("\nPress Enter to continue...")  # Wait for user input before the next iteration
+        time.sleep(1)  # Wait for 1 seconds before the next iteration
