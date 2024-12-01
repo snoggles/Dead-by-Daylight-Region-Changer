@@ -59,7 +59,7 @@ This command will install PyInstaller, which is used to turn Python scripts into
 
 #### 3. Prepare Your Files
 - Make sure you have the following files in the same folder:
-  - `RegionChangerv0.3.py` (the script you want to convert).
+  - `RegionChanger.py` (the script you want to convert).
   - `BPS.ico` (your custom icon for the EXE file).
 
 #### 4. Open the Terminal/Command Prompt in the Script's Folder
