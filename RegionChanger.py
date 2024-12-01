@@ -116,9 +116,6 @@ def clear_console():
     """Clear the console screen on Windows."""
     os.system('cls')
     
-def clear_console():
-    """Clear the console screen on Windows."""
-    os.system('cls')
 if __name__ == "__main__":
     if not is_admin():
         print("This script requires administrator privileges. Please run as administrator.")
