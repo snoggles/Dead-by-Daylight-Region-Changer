@@ -10,6 +10,25 @@ import time
 import sys
 
 hosts_path = r"C:\Windows\System32\drivers\etc\hosts"
+regions = {
+    "0": ("Set Default", None),
+    "1": ("N. Virginia", "us-east-1"),
+    "2": ("Ohio", "us-east-2"),
+    "3": ("N. California", "us-west-1"),
+    "4": ("Oregon", "us-west-2"),
+    "5": ("Frankfurt", "eu-central-1"),
+    "6": ("Ireland", "eu-west-1"),
+    "7": ("London", "eu-west-2"),
+    "8": ("South America", "sa-east-1"),
+    "9": ("Asia Pacific (Mumbai)", "ap-south-1"),
+    "10": ("Asia Pacific (Seoul)", "ap-northeast-2"),
+    "11": ("Asia Pacific (Singapore)", "ap-southeast-1"),
+    "12": ("Asia Pacific (Sydney)", "ap-southeast-2"),
+    "13": ("Asia Pacific (Tokyo)", "ap-northeast-1"),
+    "14": ("Asia Pacific (Hong Kong)", "ap-east-1"),
+    "15": ("Canada", "ca-central-1"),
+}
+all_domains = [region[1] for key, region in regions.items() if key not in ["0"]]
 
 def is_admin():
     try:
@@ -50,7 +69,7 @@ def remove_all_overrides():
         # This the traditional pattern used < 8.4.0
         pattern1 = r".*\sgamelift\.[^.]+\.amazonaws\.com$"
         # The .api.aws hostnames were added briefly in 8.4.0, then reverted.
-        # Starting in 8.5.2, tghe
+        # Starting in 8.5.2, the .api.aws seem to be turned on and off intermittently.
         pattern2 = r".*\sgamelift-ping\.[^.]+\.api\.aws$"
         return re.match(pattern1, line) or re.match(pattern2, line)
 
@@ -91,25 +110,6 @@ def get_current_region(regions):
 
 
 def get_user_region_choice():
-    regions = {
-        "0": ("Set Default", None),
-        "1": ("N. Virginia", "us-east-1"),
-        "2": ("Ohio", "us-east-2"),
-        "3": ("N. California", "us-west-1"),
-        "4": ("Oregon", "us-west-2"),
-        "5": ("Frankfurt", "eu-central-1"),
-        "6": ("Ireland", "eu-west-1"),
-        "7": ("London", "eu-west-2"),
-        "8": ("South America", "sa-east-1"),
-        "9": ("Asia Pacific (Mumbai)", "ap-south-1"),
-        "10": ("Asia Pacific (Seoul)", "ap-northeast-2"),
-        "11": ("Asia Pacific (Singapore)", "ap-southeast-1"),
-        "12": ("Asia Pacific (Sydney)", "ap-southeast-2"),
-        "13": ("Asia Pacific (Tokyo)", "ap-northeast-1"),
-        "14": ("Asia Pacific (Hong Kong)", "ap-east-1"),
-        "15": ("Canada", "ca-central-1"),
-    }
-
     print("GitHub: https://github.com/DAMERTON/Dead-by-Daylight-Region-Changer")
     print("-------------------------------------------------------------------")
     print("\nWelcome to the Bloodpoint Farming Region Changer!")
@@ -131,7 +131,7 @@ def get_user_region_choice():
             domains_to_block = [f"gamelift.{region}.amazonaws.com" for region in regions_to_block] + \
                                [f"gamelift-ping.{region}.api.aws" for region in regions_to_block]
 
-            return choice, chosen_domain, domains_to_block, regions
+            return choice, chosen_domain, domains_to_block
         else:
             print("Invalid choice. Please try again.")
 
@@ -147,18 +147,10 @@ if __name__ == "__main__":
         ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
         sys.exit()
 
-    all_domains = []
-    first_run = True
-
     while True:
-        if not first_run:
-            clear_console()
-        first_run = False
-        choice, chosen_domain, domains_to_block, regions = get_user_region_choice()
+        choice, chosen_domain, domains_to_block = get_user_region_choice()
 
-        if not all_domains:
-            all_domains = [region[1] for key, region in regions.items() if key not in ["0"]]
-        elif choice == "0":  # Set Default option
+        if choice == "0":  # Set Default option
             print("\nPerforming cleanup...")
             remove_all_overrides()
         else:
@@ -172,3 +164,4 @@ if __name__ == "__main__":
             print(f"\nDone!")
 
         time.sleep(1)  # Wait for 1 second before the next iteration
+        clear_console()
