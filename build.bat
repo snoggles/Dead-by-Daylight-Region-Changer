@@ -1,3 +1,5 @@
+:: Note: nuitka chosen over pyinstaller because it generates smaller exe files
+
 nuitka ^
   --output-dir=build ^
   --onefile ^

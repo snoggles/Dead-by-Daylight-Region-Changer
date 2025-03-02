@@ -1,12 +1,8 @@
 name: Build
 
-on:
-  push:
-    branches:
-      - main
+on: push
 
 jobs:
-
   build:
     runs-on: windows-latest
 
@@ -29,9 +25,10 @@ jobs:
       - name: Build .exe
         run: .\build.bat
 
-      # Upload artifact
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: RegionChanger
-          path: build/RegionChanger.exe
+          files: |
+            RegionChanger.py
+            build/RegionChanger.exe
