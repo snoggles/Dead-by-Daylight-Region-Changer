@@ -1,7 +1,8 @@
 # ---------------------------------------------
 # Dead by Daylight Region Changer
 # Developed by DAMERTON
-# GitHub: https://github.com/DAMERTON/Dead-by-Daylight-Region-Changer
+# Maintained by snoggles
+# GitHub: https://github.com/snoggles/Dead-by-Daylight-Region-Changer
 # ---------------------------------------------
 import os
 import ctypes
@@ -29,6 +30,7 @@ regions = {
     "15": ("Canada", "ca-central-1"),
 }
 all_domains = [region[1] for key, region in regions.items() if key not in ["0"]]
+
 
 def is_admin():
     try:
@@ -92,7 +94,7 @@ def remove_all_overrides():
     print("\nCleanup completed: Removed domains from the hosts file.")
 
 
-def get_current_region(regions):
+def get_current_region():
     with open(hosts_path, 'r') as hosts_file:
         content = hosts_file.read()
 
@@ -110,7 +112,7 @@ def get_current_region(regions):
 
 
 def get_user_region_choice():
-    print("GitHub: https://github.com/DAMERTON/Dead-by-Daylight-Region-Changer")
+    print("GitHub: https://github.com/snoggles/Dead-by-Daylight-Region-Changer")
     print("-------------------------------------------------------------------")
     print("\nWelcome to the Bloodpoint Farming Region Changer!")
     print("Please select a region from the following options:\n")
@@ -118,7 +120,7 @@ def get_user_region_choice():
     for key, (region_name, region_id) in regions.items():
         print(f"{key}. {region_name} ({region_id})")
 
-    current_region = get_current_region(regions)
+    current_region = get_current_region()
     print("\n---------------------------------------------------------")
     print(f"Current region: {current_region}")
     print("---------------------------------------------------------")
