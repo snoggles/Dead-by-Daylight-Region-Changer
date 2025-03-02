@@ -27,7 +27,7 @@ jobs:
 
       # Build python script into a single exe
       - name: Build .exe
-        run: \.build.bat
+        run: .\build.bat
 
       # Upload artifact
       - name: Upload Artifact
