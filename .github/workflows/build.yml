@@ -17,6 +17,10 @@ jobs:
       # Setup Python
       - uses: actions/setup-python@v5
         with:
+          # Intentionally using older version of python here due to bloat in later versions that I can't figure out
+          # how to eliminate. It looks like most of the increase is in the python.dll which nuitka does not tree-shake.
+          # 3.8 binary is ~3 MB
+          # 3.11 binary is ~6 MB
           python-version: '3.8'
 
       # Build python script into a single exe
@@ -30,4 +34,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
+          name: RegionChanger
           path: build/RegionChanger.exe
