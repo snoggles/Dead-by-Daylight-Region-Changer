@@ -46,7 +46,6 @@ If you want to build your own version of the Region Changer as an executable (.e
 
 ### What You Need:
 - **Python** installed on your computer (download it from (https://www.python.org/).
-- **PyInstaller** (a tool that converts Python scripts into standalone executables).
 
 ### Step-by-Step Guide
 
@@ -63,10 +62,10 @@ If you don't have Python installed:
 - Type the following command and press Enter:
 
 ```bash
-pip install pyinstaller
+pip install -r requirements.txt
 ```
 
-This command will install PyInstaller, which is used to turn Python scripts into `.exe` files.
+This command will install the packages used to turn Python scripts into `.exe` files.
 
 #### 3. Prepare Your Files
 - Make sure you have the following files in the same folder:
@@ -77,15 +76,14 @@ This command will install PyInstaller, which is used to turn Python scripts into
 - In **Windows**, right-click on the folder containing your files, and select "Open command window here" or "Open PowerShell window here."
 - In **Mac/Linux**, navigate to the folder in the terminal using the `cd` command.
 
-#### 5. Run the PyInstaller Command
+#### 5. Run the Command to build the .exe
 - In the terminal or command prompt, type the following command:
 
 ```bash
-pip install -r requirements.txt
 build.bat
 ```
 
-#### 6. Wait for PyInstaller to Build the EXE
+#### 6. Wait for the EXE to build
 Building may take a few minutes. Once it's done, you’ll see some new folders created in your script's directory:
 - **build**: This is where the EXE file and other temporary files are saved.
 
