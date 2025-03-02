@@ -6,4 +6,5 @@ nuitka ^
   --windows-icon-from-ico=BPS.ico ^
   --lto=yes ^
   --mingw64 ^
+  --assume-yes-for-downloads ^
   RegionChanger.py
