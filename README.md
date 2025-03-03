@@ -38,6 +38,12 @@ Alternatively, instead of [running the .exe](#how-to-use), you can run the [Regi
 - Antivirus will not interfere with it.
 - You can easily see what it's doing and make changes.
 
+### Creating Shortcut
+1. Right click > New Shortcut > `python.exe C:\path\to\RegionChanger.py` > Finish
+2. Right click shortcut > Properties > Shortcut > Advanced > Run as administrator > OK > OK
+3. Rename shortcut to something like `Region Changer`
+4. Move shortcut to `C:\ProgramData\Microsoft\Windows\Start Menu\Programs` to make it available on the start menu
+
 ---
 
 ## How to Build Your Own Version
