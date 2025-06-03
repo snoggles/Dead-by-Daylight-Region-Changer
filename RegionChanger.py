@@ -139,8 +139,7 @@ def get_user_region_choice():
         if choice in regions:
             chosen_domain = regions[choice][1]
             regions_to_block = [region[1] for key, region in regions.items() if key not in ["0"] and region[1] != chosen_domain]
-            domains_to_block = [f"gamelift.{region}.amazonaws.com" for region in regions_to_block] + \
-                               [f"gamelift-ping.{region}.api.aws" for region in regions_to_block]
+            domains_to_block = [f"gamelift-ping.{region}.api.aws" for region in regions_to_block]
 
             return choice, chosen_domain, domains_to_block
         else:
