@@ -9,8 +9,14 @@ import ctypes
 import re
 import time
 import sys
+import platform
 
-hosts_path = r"C:\Windows\System32\drivers\etc\hosts"
+# Detect OS and set hosts_path accordingly
+if platform.system() == "Windows":
+    hosts_path = r"C:\Windows\System32\drivers\etc\hosts"
+else:
+    hosts_path = "/etc/hosts"
+
 regions = {
     "0": ("Set Default", None),
     "1": ("N. Virginia", "us-east-1"),
@@ -33,10 +39,13 @@ all_domains = [region[1] for key, region in regions.items() if key not in ["0"]]
 
 
 def is_admin():
-    try:
-        return ctypes.windll.shell32.IsUserAnAdmin()
-    except:
-        return False
+    if platform.system() == "Windows":
+        try:
+            return ctypes.windll.shell32.IsUserAnAdmin()
+        except:
+            return False
+    else:
+        return os.geteuid() == 0
 
 
 def add_to_hosts(ip, domains):
@@ -139,14 +148,21 @@ def get_user_region_choice():
 
 
 def clear_console():
-    """Clear the console screen on Windows."""
-    os.system('cls')
-
+    """Clear the console screen on Windows or Linux."""
+    if platform.system() == "Windows":
+        os.system('cls')
+    else:
+        os.system('clear')
 
 if __name__ == "__main__":
     if not is_admin():
-        # Re-run the program with admin rights
-        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+        if platform.system() == "Windows":
+            # Re-run the program with admin rights on Windows
+            ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+        else:
+            # Re-run the program with sudo on Linux
+            print("This script requires root privileges. Re-running with sudo...")
+            os.execvp("sudo", ["sudo", sys.executable] + sys.argv)
         sys.exit()
 
     while True:
