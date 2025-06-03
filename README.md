@@ -28,7 +28,7 @@ https://github.com/snoggles/Dead-by-Daylight-Region-Changer/releases/latest/down
 4. Move shortcut to `C:\ProgramData\Microsoft\Windows\Start Menu\Programs` to make it available on the start menu
 
 ## How to Use
-1. Run the [RegionChanger.py](https://github.com/snoggles/Dead-by-Daylight-Region-Changer/releases/latest/download/RegionChanger.exe) shortcut (it asks to run as administrator to modify the hosts file).
+1. Run the [RegionChanger.py](https://github.com/snoggles/Dead-by-Daylight-Region-Changer/releases/latest/download/RegionChanger.py) shortcut (it asks to run as administrator to modify the hosts file).
 2. Select the region you want from the list.
 3. The tool will automatically block other regions, forcing Dead by Daylight to connect to your selected region.
 4. If you wish to reset to the default settings, use the Cleanup option to unblock all regions.
