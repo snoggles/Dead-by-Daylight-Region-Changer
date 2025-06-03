@@ -31,4 +31,3 @@ jobs:
         with:
           files: |
             RegionChanger.py
-            build/RegionChanger.exe
