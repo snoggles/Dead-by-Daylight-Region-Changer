@@ -35,42 +35,31 @@ regions = {
     "14": ("Asia Pacific (Hong Kong)", "ap-east-1"),
     "15": ("Canada", "ca-central-1"),
 }
-all_domains = [region[1] for key, region in regions.items() if key not in ["0"]]
+all_region_ids = [region[1] for key, region in regions.items() if key not in ["0"]]
 
 
-def is_admin():
+def ensure_admin():
     if platform.system() == "Windows":
-        try:
-            return ctypes.windll.shell32.IsUserAnAdmin()
-        except:
-            return False
+        if not ctypes.windll.shell32.IsUserAnAdmin():
+            ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+            sys.exit(0)
     else:
-        return os.geteuid() == 0
+        if os.geteuid() != 0:
+            print("This script requires root privileges. Re-running with sudo...")
+            os.execvp("sudo", ["sudo", sys.executable] + sys.argv)
 
-
-def add_to_hosts(ip, domains):
-    with open(hosts_path, 'r') as hosts_file:
-        lines = hosts_file.readlines()
-
+def append_hosts_entries(choice):
     with open(hosts_path, 'a') as hosts_file:
-        for domain in domains:
-            line_to_add = f"{ip} {domain}"
-            if line_to_add not in lines:
-                # Ensure a blank line before adding the new block, if needed
-                if lines and not lines[-1].endswith("\n"):
-                    hosts_file.write("\n")  # Add a blank line if the last line is not empty
-                hosts_file.write(line_to_add + "\n")
-                # print(f"Added '{line_to_add}' to the hosts file.")
+        hosts_file.write("\n")
 
-    # Ensure exactly one blank line at the end of the file
-    with open(hosts_path, 'r') as hosts_file:
-        lines = hosts_file.readlines()
+        for id, region in regions.items():
+            if id == "0":
+                continue
 
-    with open(hosts_path, 'w') as hosts_file:
-        hosts_file.writelines([line.rstrip() + "\n" for line in lines])
-        if not lines[-1].strip():  # Check if last line is blank
-            hosts_file.write("\n")  # Add a blank line if the last line is blank
-
+            comment_prefix = "#" if id == choice else " "
+            domain = f"gamelift-ping.{region[1]}.api.aws"
+            line_to_add = f"{comment_prefix} 0.0.0.0 {domain}\n"
+            hosts_file.write(line_to_add)
 
 def remove_all_overrides():
     with open(hosts_path, 'r') as hosts_file:
@@ -100,24 +89,26 @@ def remove_all_overrides():
     with open(hosts_path, 'w') as hosts_file:
         hosts_file.writelines(filtered_lines)
 
-    print("\nCleanup completed: Removed domains from the hosts file.")
-
 
 def get_current_region():
     with open(hosts_path, 'r') as hosts_file:
         content = hosts_file.read()
 
-    blocked_domains = [domain for _, domain in regions.values() if domain]
-    unblocked_domains = [domain for domain in blocked_domains if domain not in content]
+    # Remove commented out entries
+    content = "\n".join([line for line in content.splitlines() if not re.match(r"^\s*#\s*", line)])
 
-    if len(unblocked_domains) == 1:
-        for key, (region_name, domain) in regions.items():
-            if domain == unblocked_domains[0]:
-                return region_name
-    elif len(unblocked_domains) == len(blocked_domains):
+    unblocked_region_ids = [region_id for region_id in all_region_ids if region_id not in content]
+
+    if len(unblocked_region_ids) == len(all_region_ids):
         return "Default (Not region locked)"
     else:
-        return "Error in analysis"
+        return ", ".join([get_region_name(region_id) for region_id in unblocked_region_ids])
+
+def get_region_name(region_id):
+    for region_name, domain in regions.values():
+        if domain == region_id:
+            return region_name
+    return "Unknown Region"
 
 
 def get_user_region_choice():
@@ -137,11 +128,7 @@ def get_user_region_choice():
     while True:
         choice = input("\nEnter the number of your chosen option: ")
         if choice in regions:
-            chosen_domain = regions[choice][1]
-            regions_to_block = [region[1] for key, region in regions.items() if key not in ["0"] and region[1] != chosen_domain]
-            domains_to_block = [f"gamelift-ping.{region}.api.aws" for region in regions_to_block]
-
-            return choice, chosen_domain, domains_to_block
+            return choice
         else:
             print("Invalid choice. Please try again.")
 
@@ -154,31 +141,18 @@ def clear_console():
         os.system('clear')
 
 if __name__ == "__main__":
-    if not is_admin():
-        if platform.system() == "Windows":
-            # Re-run the program with admin rights on Windows
-            ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
-        else:
-            # Re-run the program with sudo on Linux
-            print("This script requires root privileges. Re-running with sudo...")
-            os.execvp("sudo", ["sudo", sys.executable] + sys.argv)
-        sys.exit()
+    ensure_admin()
 
     while True:
-        choice, chosen_domain, domains_to_block = get_user_region_choice()
-
-        if choice == "0":  # Set Default option
-            print("\nPerforming cleanup...")
-            remove_all_overrides()
-        else:
-            # Clean up all previously added domains before adding new ones
-            print("\nCleaning up previous entries...")
-            remove_all_overrides()
-
-            ip_address = "0.0.0.0"  # IP address used to block the domains
+        choice = get_user_region_choice()
+        
+        print("\nClearing old overrides...")
+        remove_all_overrides()
+            
+        if choice != "0":  # ignore Default option
             print(f"\nSelected region: {regions[choice][0]}")
-            add_to_hosts(ip_address, domains_to_block)
-            print(f"\nDone!")
+            append_hosts_entries(choice)
 
+        print(f"\nDone!")
         time.sleep(1)  # Wait for 1 second before the next iteration
         clear_console()
