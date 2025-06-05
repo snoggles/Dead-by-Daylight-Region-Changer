@@ -12,20 +12,34 @@ Region Changer works by modifying your system's hosts file to block specific AWS
 - Custom Region Selection: Choose your preferred server region with ease.
 - No VPN Required: Avoid the hassle, cost, and higher ping of a VPN connection.
 
-## Setup
+## Windows Setup
 ### 1. Install Python
 If you don't have Python installed:
 - Go to (https://www.python.org/downloads/) and download the latest version for your operating system.
 - Install Python
 
-### 2. Download the script
+### 2. Download the Script
 https://github.com/snoggles/Dead-by-Daylight-Region-Changer/releases/latest/download/RegionChanger.py
 
-### 3. Create a Shortcut
-1. Right click > New Shortcut > `python.exe C:\path\to\RegionChanger.py` > Finish
-2. Right click shortcut > Properties > Shortcut > Advanced > Run as administrator > OK > OK
+### 3. Run the Script
+In your Downloads Folder; Double click `RegionChanger.py`. The application will open.
+
+### 4. Create a Shortcut (Optional)
+1. Right click (On Windows 11: *Show more options*) > *New* > *Shortcut* > `python.exe C:\path\to\RegionChanger.py` > *Finish*
+2. Right click shortcut > *Properties* > *Shortcut* > *Advanced* > *Run as administrator* > *OK* > *OK*
 3. Rename shortcut to something like `Region Changer`
 4. Move shortcut to `C:\ProgramData\Microsoft\Windows\Start Menu\Programs` to make it available on the start menu
+
+## Linux Setup
+### 1. On SteamOS (Steam Deck)
+Open Steam menu > *Power* > *Switch to Desktop*
+
+### 2. Download the Script
+https://github.com/snoggles/Dead-by-Daylight-Region-Changer/releases/latest/download/RegionChanger.py
+
+### 3. Run the Script
+1. In your Downloads Folder; Rick click (L2) > *Open Terminal Here*
+2. In the Terminal; type `sudo python RegionChanger.py`, press **ENTER**, type your *Account Password*, press **ENTER**
 
 ## How to Use
 1. Run the [RegionChanger.py](https://github.com/snoggles/Dead-by-Daylight-Region-Changer/releases/latest/download/RegionChanger.py) shortcut (it asks to run as administrator to modify the hosts file).
