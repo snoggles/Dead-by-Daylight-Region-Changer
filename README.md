@@ -22,7 +22,7 @@ If you don't have Python installed:
 https://github.com/snoggles/Dead-by-Daylight-Region-Changer/releases/latest/download/RegionChanger.py
 
 ### 3. Create a Shortcut
-1. Right click > New Shortcut > `python.exe C:\path\to\RegionChanger.py` > Finish
+1. Right click > New Shortcut > `python.exe "C:\path\to\RegionChanger.py"` > Finish
 2. Right click shortcut > Properties > Shortcut > Advanced > Run as administrator > OK > OK
 3. Rename shortcut to something like `Region Changer`
 4. Move shortcut to `C:\ProgramData\Microsoft\Windows\Start Menu\Programs` to make it available on the start menu
