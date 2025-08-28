@@ -26,7 +26,7 @@ regions = {
     "5": ("Frankfurt", "eu-central-1"),
     "6": ("Ireland", "eu-west-1"),
     "7": ("London", "eu-west-2"),
-    "8": ("South America", "sa-east-1"),
+    "8": ("South America (São Paulo)", "sa-east-1"),
     "9": ("Asia Pacific (Mumbai)", "ap-south-1"),
     "10": ("Asia Pacific (Seoul)", "ap-northeast-2"),
     "11": ("Asia Pacific (Singapore)", "ap-southeast-1"),
