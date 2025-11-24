@@ -62,6 +62,8 @@ def append_hosts_entries(choice):
             hosts_file.write(line_to_add)
 
 def remove_all_overrides():
+    ensure_hosts_file_exists()
+
     with open(hosts_path, 'r') as hosts_file:
         lines = hosts_file.readlines()
 
@@ -91,6 +93,8 @@ def remove_all_overrides():
 
 
 def get_current_region():
+    ensure_hosts_file_exists()
+
     with open(hosts_path, 'r') as hosts_file:
         content = hosts_file.read()
 
@@ -139,6 +143,30 @@ def clear_console():
         os.system('cls')
     else:
         os.system('clear')
+
+
+def ensure_hosts_file_exists():
+    """Create the hosts file (and parent dir if needed) when it doesn't exist.
+
+    This prevents opens in 'r' mode from failing on a fresh system.
+    """
+    directory = os.path.dirname(hosts_path)
+    if directory and not os.path.isdir(directory):
+        try:
+            os.makedirs(directory, exist_ok=True)
+        except Exception:
+            # If we can't create the directory, let the later file open raise.
+            pass
+
+    if not os.path.exists(hosts_path):
+        # Open in write mode to create an empty file.
+        try:
+            with open(hosts_path, 'w'):
+                pass
+        except Exception:
+            # If creation fails (permissions, etc.), let the caller handle it.
+            pass
+
 
 if __name__ == "__main__":
     ensure_admin()
