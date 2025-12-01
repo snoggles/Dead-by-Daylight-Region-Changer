@@ -32,9 +32,6 @@ https://github.com/snoggles/Dead-by-Daylight-Region-Changer/releases/latest/down
 2. Select the region you want from the list.
 3. The tool will automatically block other regions, forcing Dead by Daylight to connect to your selected region.
 4. If you wish to reset to the default settings, use the Cleanup option to unblock all regions.
-5. Make Dead by Daylight run region detection by either:
-    - *Settings* > *General* > Revoke Consent (fast)
-    - Restarting DBD (slow)
 
 ---
 
