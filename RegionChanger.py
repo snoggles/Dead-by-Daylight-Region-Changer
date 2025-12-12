@@ -2,7 +2,7 @@
 # Dead by Daylight Region Changer
 # Developed by DAMERTON
 # Maintained by snoggles
-# GitHub: https://github.com/snoggles/Dead-by-Daylight-Region-Changer
+# GitHub: https://github.com/Bloodpoint-Farming/Dead-by-Daylight-Region-Changer
 # ---------------------------------------------
 import os
 import ctypes
