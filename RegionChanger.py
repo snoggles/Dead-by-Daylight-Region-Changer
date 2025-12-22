@@ -69,10 +69,17 @@ def remove_all_overrides():
 
     def is_gamelift_line(line):
         # This the traditional pattern used < 8.4.0
-        pattern1 = r".*\sgamelift\.[^.]+\.amazonaws\.com$"
+        # There are a few flavors:
+        # - gamelift.us-east-1.amazonaws.com (this is the common one)
+        # - ec2.ap-east-1.amazonaws.com (seems unused as of 9.3.0)
+        # - gamelift.cn-northwest-1.amazonaws.com.cn (I'm not sure if this is real.)
+        pattern1 = r".*\s(gamelift|ec2)\.[^.]+\.amazonaws\.com[^\s]*$"
+
         # The .api.aws hostnames were added briefly in 8.4.0, then reverted.
         # Starting in 8.5.2, the .api.aws seem to be turned on and off intermittently.
+        # As of 9.3.0, the .api.aws hostnames are the only ones used.
         pattern2 = r".*\sgamelift-ping\.[^.]+\.api\.aws$"
+
         return re.match(pattern1, line) or re.match(pattern2, line)
 
     # Filter out lines containing domains to remove
